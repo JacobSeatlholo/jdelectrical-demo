@@ -1,8 +1,9 @@
 import { Nav } from "@/components/jd/nav";
 import { Hero } from "@/components/jd/hero";
 import {
-  CredentialTicker,
+  TrustStrip,
   Services,
+  WhyJD,
   BackupPower,
   EmergencyBand,
   Coverage,
@@ -21,8 +22,9 @@ export default function Home() {
       <Nav />
       <main className="flex-1">
         <Hero />
-        <CredentialTicker />
+        <TrustStrip />
         <Services />
+        <WhyJD />
         <BackupPower />
         <Estimator />
         <EmergencyBand />

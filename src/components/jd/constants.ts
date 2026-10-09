@@ -24,10 +24,10 @@ export const JD = {
 
 export const NAV_LINKS = [
   { href: "#services", label: "Services" },
+  { href: "#about", label: "About" },
   { href: "#backup-power", label: "Backup Power" },
   { href: "#estimate", label: "Instant Estimate" },
-  { href: "#live-leads", label: "Live Leads" },
-  { href: "#ai-ideas", label: "AI Ideas" },
+  { href: "#live-leads", label: "Live Board" },
   { href: "#contact", label: "Contact" },
 ] as const;
 

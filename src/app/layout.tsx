@@ -1,20 +1,17 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Poppins } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const poppins = Poppins({
+  variable: "--font-poppins",
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "JD Electrical | Master Electrician — Industrial, Mining & Commercial Power | Alberton, Gauteng",
+  title: "JD Electrical | Master Electrician — Industrial, Mining, Commercial & Domestic | Alberton, Gauteng",
   description:
     "JD Electrical, led by master electrician Jan Cilliers, delivers industrial, mining, commercial and domestic electrical services across Gauteng. CoCs for all applications, emergency callouts, generators, solar and pump installations. Call +27 83 602 3171.",
   keywords: [
@@ -26,6 +23,8 @@ export const metadata: Metadata = {
     "solar installation Alberton",
     "generator installation Gauteng",
     "emergency electrician East Rand",
+    "electrical COC Alberton",
+    "load shedding solutions Gauteng",
   ],
   authors: [{ name: "JD Electrical" }],
   icons: {
@@ -44,7 +43,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#060d1a",
+  themeColor: "#045191",
   width: "device-width",
   initialScale: 1,
 };
@@ -57,7 +56,7 @@ export default function RootLayout({
   return (
     <html lang="en-ZA" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
+        className={`${poppins.variable} antialiased bg-background text-foreground`}
       >
         {children}
         <Toaster />

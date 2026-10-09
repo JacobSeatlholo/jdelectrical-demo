@@ -16,7 +16,6 @@ import {
   ListChecks,
   MessageCircle,
   Phone,
-  Sparkles,
   Clock3,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -34,9 +33,9 @@ const SECTORS = [
 ];
 
 const URGENCIES = [
-  { key: "Emergency — ASAP", tone: "border-red-500/50 bg-red-500/10 text-red-300" },
-  { key: "This week", tone: "border-jd-yellow/50 bg-jd-yellow/10 text-jd-yellow" },
-  { key: "Planning ahead", tone: "border-white/20 bg-white/5 text-slate-300" },
+  { key: "Emergency — ASAP", tone: "border-red-300 bg-red-50 text-red-700" },
+  { key: "This week", tone: "border-jd-blue bg-jd-blue text-white" },
+  { key: "Planning ahead", tone: "border-slate-300 bg-jd-cloud text-jd-navy" },
 ];
 
 const JOB_TYPES: Record<string, string[]> = {
@@ -79,6 +78,8 @@ function useCountUp(target: number, active: boolean) {
   }, [target, active]);
   return val;
 }
+
+const STEP_TITLES = ["Job type", "Details", "Estimate", "Get quote"];
 
 export function Estimator() {
   const { toast } = useToast();
@@ -183,53 +184,57 @@ export function Estimator() {
       )
     : "";
 
+  const inputCls = "mt-1.5 border-slate-300 bg-white text-jd-ink placeholder:text-slate-400 focus-visible:ring-jd-blue";
+
   return (
-    <section id="estimate" className="relative py-20 sm:py-24 scroll-mt-20">
-      <div
-        className="absolute inset-x-0 top-1/3 mx-auto h-72 max-w-3xl rounded-full bg-jd-blue/20 blur-[120px]"
-        aria-hidden
-      />
-      <div className="relative mx-auto max-w-4xl px-4 sm:px-6">
+    <section id="estimate" className="scroll-mt-24 bg-jd-cloud py-16 sm:py-24">
+      <div className="mx-auto max-w-4xl px-4 sm:px-6">
         <div className="text-center">
-          <span className="inline-flex items-center gap-2 rounded-full border border-jd-yellow/40 bg-jd-yellow/10 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.16em] text-jd-yellow">
-            <Sparkles className="h-3.5 w-3.5" aria-hidden />
-            AI-powered · exclusive to this site
-          </span>
-          <h2 className="mt-4 text-3xl font-extrabold tracking-tight sm:text-4xl">
-            Describe the job.{" "}
-            <span className="text-jd-yellow">Get an instant estimate.</span>
+          <p className="jd-eyebrow justify-center">Instant Estimate</p>
+          <h2 className="mt-3 text-3xl font-bold text-jd-navy sm:text-4xl">
+            Describe the job — get an instant estimate
           </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-slate-300">
+          <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-slate-600">
             No waiting hours for a call back. Answer three quick questions and our
-            AI assistant — trained on JD Electrical&apos;s real service catalogue —
-            gives you an indicative price range, the scope of work and the compliance
-            requirements. Then it lands directly on Jan&apos;s live leads board.
+            smart estimating assistant — trained on JD Electrical&apos;s real
+            service catalogue — gives you an indicative price range, the scope of
+            work and the compliance requirements. It lands straight on Jan&apos;s
+            job board.
           </p>
         </div>
 
-        <div className="mt-10 overflow-hidden rounded-2xl border border-white/12 bg-[#0a1626] shadow-2xl shadow-black/50">
+        <div className="mt-10 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-lg shadow-slate-200/60">
           {/* Progress rail */}
-          <div className="flex items-center gap-2 border-b border-white/10 px-6 py-4">
-            {[1, 2, 3, 4].map((s, i) => (
-              <div key={s} className="flex flex-1 items-center gap-2">
-                <span
-                  className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-bold transition-colors ${
-                    step >= s
-                      ? "bg-jd-yellow text-[#0a1626]"
-                      : "border border-white/20 text-slate-500"
-                  }`}
-                  aria-current={step === s ? "step" : undefined}
-                >
-                  {s}
-                </span>
-                {i < 3 && (
-                  <div
-                    className={`h-0.5 flex-1 rounded ${step > s ? "bg-jd-yellow" : "bg-white/12"}`}
-                    aria-hidden
-                  />
-                )}
-              </div>
-            ))}
+          <div className="border-b border-slate-200 bg-jd-cloud/60 px-6 py-4 sm:px-8">
+            <ol className="flex items-center gap-2">
+              {[1, 2, 3, 4].map((s, i) => (
+                <li key={s} className="flex flex-1 items-center gap-2">
+                  <span
+                    className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-bold transition-colors ${
+                      step >= s
+                        ? "bg-jd-blue text-white"
+                        : "border border-slate-300 bg-white text-slate-400"
+                    }`}
+                    aria-current={step === s ? "step" : undefined}
+                  >
+                    {s}
+                  </span>
+                  <span
+                    className={`hidden text-xs font-semibold sm:block ${
+                      step >= s ? "text-jd-blue" : "text-slate-400"
+                    }`}
+                  >
+                    {STEP_TITLES[i]}
+                  </span>
+                  {i < 3 && (
+                    <div
+                      className={`h-0.5 flex-1 rounded ${step > s ? "bg-jd-blue" : "bg-slate-200"}`}
+                      aria-hidden
+                    />
+                  )}
+                </li>
+              ))}
+            </ol>
           </div>
 
           <div className="p-6 sm:p-8">
@@ -241,9 +246,9 @@ export function Estimator() {
                   initial={{ opacity: 0, x: 24 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -24 }}
-                  transition={{ duration: 0.3 }}
+                  transition={{ duration: 0.25 }}
                 >
-                  <h3 className="text-lg font-bold">What kind of job is it?</h3>
+                  <h3 className="text-lg font-bold text-jd-navy">What kind of job is it?</h3>
                   <div className="mt-5 grid gap-3 sm:grid-cols-2">
                     {SECTORS.map((s) => (
                       <button
@@ -253,24 +258,24 @@ export function Estimator() {
                           setJobType("");
                           setStep(2);
                         }}
-                        className={`jd-card group flex items-start gap-4 rounded-xl border p-4 text-left transition-colors ${
+                        className={`group flex items-start gap-4 rounded-lg border p-4 text-left transition-all ${
                           sector === s.key
-                            ? "border-jd-yellow bg-jd-yellow/10"
-                            : "border-white/12 bg-white/[0.03] hover:border-jd-yellow/40"
+                            ? "border-jd-blue bg-jd-blue/[0.06] ring-1 ring-jd-blue"
+                            : "border-slate-200 bg-white hover:border-jd-blue/50 hover:shadow-md"
                         }`}
                       >
                         <span
                           className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-lg transition-colors ${
                             sector === s.key
-                              ? "bg-jd-yellow text-[#0a1626]"
-                              : "bg-jd-blue/35 text-jd-yellow"
+                              ? "bg-jd-blue text-white"
+                              : "bg-jd-cloud text-jd-blue group-hover:bg-jd-blue group-hover:text-white"
                           }`}
                         >
-                          <s.icon className="h-5.5 w-5.5" aria-hidden />
+                          <s.icon className="h-5 w-5" aria-hidden />
                         </span>
                         <span>
-                          <span className="block font-bold text-white">{s.key}</span>
-                          <span className="mt-0.5 block text-xs text-slate-400">
+                          <span className="block font-bold text-jd-navy">{s.key}</span>
+                          <span className="mt-0.5 block text-xs text-slate-500">
                             {s.hint}
                           </span>
                         </span>
@@ -287,13 +292,13 @@ export function Estimator() {
                   initial={{ opacity: 0, x: 24 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -24 }}
-                  transition={{ duration: 0.3 }}
+                  transition={{ duration: 0.25 }}
                 >
-                  <h3 className="text-lg font-bold">Tell us more</h3>
+                  <h3 className="text-lg font-bold text-jd-navy">Tell us more</h3>
 
                   <div className="mt-5 grid gap-5">
                     <div>
-                      <Label className="text-sm font-semibold text-slate-300">
+                      <Label className="text-sm font-semibold text-jd-ink">
                         Job type
                       </Label>
                       <div className="mt-2 flex flex-wrap gap-2">
@@ -301,10 +306,10 @@ export function Estimator() {
                           <button
                             key={t}
                             onClick={() => setJobType(t)}
-                            className={`rounded-full border px-3.5 py-1.5 text-sm font-medium transition-colors ${
+                            className={`rounded-md border px-3.5 py-1.5 text-sm font-medium transition-colors ${
                               jobType === t
-                                ? "border-jd-yellow bg-jd-yellow text-[#0a1626] font-bold"
-                                : "border-white/15 bg-white/[0.04] text-slate-300 hover:border-jd-yellow/40"
+                                ? "border-jd-blue bg-jd-blue font-bold text-white"
+                                : "border-slate-300 bg-white text-slate-600 hover:border-jd-blue hover:text-jd-blue"
                             }`}
                           >
                             {t}
@@ -314,7 +319,7 @@ export function Estimator() {
                     </div>
 
                     <div>
-                      <Label className="text-sm font-semibold text-slate-300">
+                      <Label className="text-sm font-semibold text-jd-ink">
                         How urgent is it?
                       </Label>
                       <div className="mt-2 flex flex-wrap gap-2">
@@ -322,10 +327,10 @@ export function Estimator() {
                           <button
                             key={u.key}
                             onClick={() => setUrgency(u.key)}
-                            className={`rounded-full border px-3.5 py-1.5 text-sm font-medium transition-colors ${
+                            className={`rounded-md border px-3.5 py-1.5 text-sm font-medium transition-colors ${
                               urgency === u.key
                                 ? u.tone + " font-bold"
-                                : "border-white/15 bg-white/[0.04] text-slate-300 hover:border-jd-yellow/40"
+                                : "border-slate-300 bg-white text-slate-600 hover:border-jd-blue hover:text-jd-blue"
                             }`}
                           >
                             {u.key}
@@ -337,7 +342,7 @@ export function Estimator() {
                     <div>
                       <Label
                         htmlFor="job-desc"
-                        className="text-sm font-semibold text-slate-300"
+                        className="text-sm font-semibold text-jd-ink"
                       >
                         Describe the job in your own words
                       </Label>
@@ -346,10 +351,10 @@ export function Estimator() {
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                         placeholder="e.g. 3-phase DB upgrade for a small workshop in Alrode, needs two new circuits and a CoC…"
-                        className="mt-2 min-h-24 border-white/15 bg-white/[0.04] text-white placeholder:text-slate-500"
+                        className={`${inputCls} min-h-24`}
                         maxLength={1200}
                       />
-                      <p className="mt-1.5 text-right text-xs text-slate-500">
+                      <p className="mt-1.5 text-right text-xs text-slate-400">
                         {description.length}/1200
                       </p>
                     </div>
@@ -359,14 +364,14 @@ export function Estimator() {
                     <Button
                       variant="ghost"
                       onClick={() => setStep(1)}
-                      className="text-slate-400 hover:text-white"
+                      className="text-slate-500 hover:text-jd-blue"
                     >
                       <ArrowLeft className="h-4 w-4" aria-hidden /> Back
                     </Button>
                     <Button
                       onClick={generate}
                       disabled={!canGenerate || loading}
-                      className="h-12 rounded-full bg-jd-yellow px-6 font-bold text-[#0a1626] hover:bg-[#ffd83d] glow-yellow disabled:opacity-40 disabled:shadow-none"
+                      className="h-12 rounded-md bg-jd-yellow px-6 font-bold text-jd-navy shadow-sm transition-colors hover:bg-[#ffd61f] disabled:opacity-40"
                     >
                       {loading ? (
                         <>
@@ -391,41 +396,41 @@ export function Estimator() {
                   initial={{ opacity: 0, x: 24 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -24 }}
-                  transition={{ duration: 0.3 }}
+                  transition={{ duration: 0.25 }}
                 >
                   <div className="flex flex-wrap items-center justify-between gap-3">
-                    <h3 className="text-lg font-bold">Your indicative estimate</h3>
-                    <span className="rounded-full border border-white/15 bg-white/[0.05] px-3 py-1 text-xs font-semibold text-slate-300">
+                    <h3 className="text-lg font-bold text-jd-navy">Your indicative estimate</h3>
+                    <span className="rounded-md border border-slate-200 bg-jd-cloud px-3 py-1 text-xs font-semibold text-slate-600">
                       {sector} · {jobType || "General"} · {urgency}
                     </span>
                   </div>
 
-                  <div className="mt-5 rounded-xl border border-jd-yellow/25 bg-gradient-to-br from-jd-yellow/10 to-transparent p-5">
-                    <p className="text-sm text-slate-300">{estimate.jobSummary}</p>
+                  <div className="mt-5 rounded-lg border border-jd-blue/20 bg-jd-blue/[0.04] p-5">
+                    <p className="text-sm text-slate-600">{estimate.jobSummary}</p>
                     <div className="mt-3 flex flex-wrap items-end gap-3">
-                      <p className="text-3xl font-extrabold text-jd-yellow tnum sm:text-4xl">
+                      <p className="tnum text-3xl font-bold text-jd-blue sm:text-4xl">
                         {formatZAR(low)} – {formatZAR(high)}
                       </p>
-                      <p className="pb-1 text-xs font-semibold uppercase tracking-wider text-slate-400">
+                      <p className="pb-1 text-xs font-semibold uppercase tracking-wider text-slate-500">
                         incl. labour &amp; standard materials
                       </p>
                     </div>
-                    <p className="mt-2 flex items-center gap-1.5 text-xs text-slate-400">
+                    <p className="mt-2 flex items-center gap-1.5 text-xs text-slate-500">
                       <Clock3 className="h-3.5 w-3.5" aria-hidden />
                       {estimate.urgencyNote}
                     </p>
                   </div>
 
                   <div className="mt-5 grid gap-5 md:grid-cols-2">
-                    <div className="rounded-xl border border-white/10 bg-white/[0.03] p-5">
-                      <p className="flex items-center gap-2 text-sm font-bold text-white">
-                        <ListChecks className="h-4.5 w-4.5 text-jd-yellow" aria-hidden />
+                    <div className="rounded-lg border border-slate-200 bg-white p-5">
+                      <p className="flex items-center gap-2 text-sm font-bold text-jd-navy">
+                        <ListChecks className="h-4 w-4 text-jd-blue" aria-hidden />
                         Scope of work
                       </p>
                       <ul className="mt-3 space-y-2">
                         {estimate.scope.map((s, i) => (
-                          <li key={i} className="flex items-start gap-2 text-sm text-slate-300">
-                            <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-jd-yellow" aria-hidden />
+                          <li key={i} className="flex items-start gap-2 text-sm text-slate-600">
+                            <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-jd-blue" aria-hidden />
                             {s}
                           </li>
                         ))}
@@ -434,26 +439,26 @@ export function Estimator() {
 
                     <div className="space-y-4">
                       {estimate.safetyFlags.length > 0 && (
-                        <div className="rounded-xl border border-white/10 bg-white/[0.03] p-5">
-                          <p className="flex items-center gap-2 text-sm font-bold text-white">
-                            <ShieldCheck className="h-4.5 w-4.5 text-jd-yellow" aria-hidden />
+                        <div className="rounded-lg border border-slate-200 bg-white p-5">
+                          <p className="flex items-center gap-2 text-sm font-bold text-jd-navy">
+                            <ShieldCheck className="h-4 w-4 text-jd-blue" aria-hidden />
                             Compliance &amp; safety
                           </p>
                           <ul className="mt-3 space-y-2">
                             {estimate.safetyFlags.map((s, i) => (
-                              <li key={i} className="flex items-start gap-2 text-sm text-slate-300">
-                                <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-emerald-400" aria-hidden />
+                              <li key={i} className="flex items-start gap-2 text-sm text-slate-600">
+                                <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" aria-hidden />
                                 {s}
                               </li>
                             ))}
                           </ul>
                         </div>
                       )}
-                      <div className="rounded-xl border border-white/10 bg-white/[0.03] p-5">
-                        <p className="text-sm font-bold text-white">Assumptions</p>
+                      <div className="rounded-lg border border-slate-200 bg-white p-5">
+                        <p className="text-sm font-bold text-jd-navy">Assumptions</p>
                         <ul className="mt-3 space-y-2">
                           {estimate.assumptions.map((s, i) => (
-                            <li key={i} className="text-sm leading-relaxed text-slate-400">
+                            <li key={i} className="text-sm leading-relaxed text-slate-500">
                               • {s}
                             </li>
                           ))}
@@ -463,22 +468,22 @@ export function Estimator() {
                   </div>
 
                   <p className="mt-4 text-xs leading-relaxed text-slate-500">
-                    This is an AI-generated indicative estimate to help you budget —
-                    not a formal quotation. JD Electrical confirms final pricing
-                    after assessing the job. {estimate.nextStep}
+                    This is an indicative estimate to help you budget — not a formal
+                    quotation. JD Electrical confirms final pricing after assessing
+                    the job. {estimate.nextStep}
                   </p>
 
                   <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
                     <Button
                       variant="ghost"
                       onClick={() => setStep(2)}
-                      className="text-slate-400 hover:text-white"
+                      className="text-slate-500 hover:text-jd-blue"
                     >
                       <ArrowLeft className="h-4 w-4" aria-hidden /> Adjust job
                     </Button>
                     <Button
                       onClick={() => setStep(4)}
-                      className="h-12 rounded-full bg-jd-yellow px-6 font-bold text-[#0a1626] hover:bg-[#ffd83d] glow-yellow"
+                      className="h-12 rounded-md bg-jd-yellow px-6 font-bold text-jd-navy shadow-sm transition-colors hover:bg-[#ffd61f]"
                     >
                       Lock this in with Jan <ArrowRight className="h-4 w-4" aria-hidden />
                     </Button>
@@ -493,20 +498,20 @@ export function Estimator() {
                   initial={{ opacity: 0, x: 24 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -24 }}
-                  transition={{ duration: 0.3 }}
+                  transition={{ duration: 0.25 }}
                 >
                   {!saved ? (
                     <>
-                      <h3 className="text-lg font-bold">
+                      <h3 className="text-lg font-bold text-jd-navy">
                         Where should Jan send the formal quote?
                       </h3>
-                      <p className="mt-1 text-sm text-slate-400">
-                        Your estimate is attached automatically and lands on the
-                        live leads board the moment you submit.
+                      <p className="mt-1 text-sm text-slate-500">
+                        Your estimate is attached automatically and lands on the job
+                        board the moment you submit.
                       </p>
                       <div className="mt-5 grid gap-4 sm:grid-cols-2">
                         <div>
-                          <Label htmlFor="est-name" className="text-sm text-slate-300">
+                          <Label htmlFor="est-name" className="text-sm text-jd-ink">
                             Your name *
                           </Label>
                           <Input
@@ -514,11 +519,11 @@ export function Estimator() {
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             placeholder="Thabo Mokoena"
-                            className="mt-1.5 border-white/15 bg-white/[0.04] text-white placeholder:text-slate-500"
+                            className={inputCls}
                           />
                         </div>
                         <div>
-                          <Label htmlFor="est-phone" className="text-sm text-slate-300">
+                          <Label htmlFor="est-phone" className="text-sm text-jd-ink">
                             Phone / WhatsApp *
                           </Label>
                           <Input
@@ -527,7 +532,7 @@ export function Estimator() {
                             onChange={(e) => setPhone(e.target.value)}
                             type="tel"
                             placeholder="083 000 0000"
-                            className="mt-1.5 border-white/15 bg-white/[0.04] text-white placeholder:text-slate-500"
+                            className={inputCls}
                           />
                         </div>
                       </div>
@@ -535,14 +540,14 @@ export function Estimator() {
                         <Button
                           variant="ghost"
                           onClick={() => setStep(3)}
-                          className="text-slate-400 hover:text-white"
+                          className="text-slate-500 hover:text-jd-blue"
                         >
                           <ArrowLeft className="h-4 w-4" aria-hidden /> Back
                         </Button>
                         <Button
                           onClick={saveLead}
                           disabled={saving}
-                          className="h-12 rounded-full bg-jd-yellow px-6 font-bold text-[#0a1626] hover:bg-[#ffd83d] glow-yellow"
+                          className="h-12 rounded-md bg-jd-blue px-6 font-bold text-white shadow-sm transition-colors hover:bg-jd-blue-deep"
                         >
                           {saving ? (
                             <>
@@ -552,7 +557,7 @@ export function Estimator() {
                           ) : (
                             <>
                               <Zap className="h-5 w-5" aria-hidden />
-                              Send to JD&apos;s live board
+                              Send my request to Jan
                             </>
                           )}
                         </Button>
@@ -565,20 +570,20 @@ export function Estimator() {
                         animate={{ scale: 1, opacity: 1 }}
                         transition={{ type: "spring", stiffness: 260, damping: 16 }}
                       >
-                        <CheckCircle2 className="mx-auto h-16 w-16 text-emerald-400" aria-hidden />
+                        <CheckCircle2 className="mx-auto h-16 w-16 text-emerald-600" aria-hidden />
                       </motion.div>
-                      <h3 className="mt-4 text-xl font-extrabold">
-                        Done! You&apos;re on the live board.
+                      <h3 className="mt-4 text-xl font-bold text-jd-navy">
+                        Done! Your request is with Jan.
                       </h3>
-                      <p className="mx-auto mt-2 max-w-md text-sm leading-relaxed text-slate-300">
-                        Jan and the team can see your request instantly — watch the
-                        Live Leads Board below light up with your job. Want it
-                        faster? Ping us on WhatsApp with your estimate attached.
+                      <p className="mx-auto mt-2 max-w-md text-sm leading-relaxed text-slate-600">
+                        Your estimate has landed on JD Electrical&apos;s live job
+                        board — the team can see it instantly. Want it faster? Ping
+                        us on WhatsApp and we&apos;ll pick it up right away.
                       </p>
                       <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
                         <Button
                           asChild
-                          className="h-12 rounded-full bg-[#25D366] px-6 font-bold text-[#06130a] hover:bg-[#2fe46f]"
+                          className="h-12 rounded-md bg-[#25D366] px-6 font-bold text-white shadow-sm transition-colors hover:bg-[#1fb857]"
                         >
                           <a
                             href={`https://wa.me/27836023171?text=${waSummary}`}
@@ -592,7 +597,7 @@ export function Estimator() {
                         <Button
                           asChild
                           variant="outline"
-                          className="h-12 rounded-full border-white/20 bg-white/5 px-6 font-semibold text-white hover:bg-white/10"
+                          className="h-12 rounded-md border-slate-300 bg-white px-6 font-semibold text-jd-navy hover:border-jd-blue hover:text-jd-blue"
                         >
                           <a href="#live-leads">
                             View the live board <ArrowRight className="h-4 w-4" aria-hidden />
@@ -601,7 +606,7 @@ export function Estimator() {
                       </div>
                       <button
                         onClick={reset}
-                        className="mt-5 text-sm font-semibold text-slate-400 underline-offset-4 hover:text-jd-yellow hover:underline"
+                        className="mt-5 text-sm font-semibold text-slate-500 underline-offset-4 hover:text-jd-blue hover:underline"
                       >
                         Run another estimate
                       </button>

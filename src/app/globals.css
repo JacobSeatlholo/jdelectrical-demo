@@ -6,8 +6,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-poppins);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -41,48 +40,50 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  /* JD brand tokens */
+  /* JD Electrical brand tokens — from the real logo */
   --color-jd-blue: #045191;
-  --color-jd-blue-deep: #032f57;
+  --color-jd-blue-bright: #0b5fa8;
+  --color-jd-blue-deep: #063258;
+  --color-jd-navy: #06294a;
   --color-jd-yellow: #fecc00;
-  --color-jd-night: #060d1a;
-  --color-jd-panel: #0a1626;
+  --color-jd-ink: #1a2b3c;
+  --color-jd-cloud: #f4f7fa;
 }
 
 :root {
-  --radius: 0.75rem;
-  /* JD Electrical dark premium theme */
-  --background: #060d1a;
-  --foreground: #eef4fb;
-  --card: #0a1626;
-  --card-foreground: #eef4fb;
-  --popover: #0c1930;
-  --popover-foreground: #eef4fb;
-  --primary: #fecc00;
-  --primary-foreground: #0a1626;
-  --secondary: #0e2138;
-  --secondary-foreground: #eef4fb;
-  --muted: #0e2138;
-  --muted-foreground: #93a7c4;
-  --accent: #045191;
-  --accent-foreground: #ffffff;
-  --destructive: #ef4444;
-  --border: rgba(147, 175, 214, 0.16);
-  --input: rgba(147, 175, 214, 0.22);
-  --ring: #fecc00;
-  --chart-1: #fecc00;
-  --chart-2: #045191;
-  --chart-3: #34d399;
-  --chart-4: #f59e0b;
-  --chart-5: #60a5fa;
-  --sidebar: #0a1626;
-  --sidebar-foreground: #eef4fb;
-  --sidebar-primary: #fecc00;
-  --sidebar-primary-foreground: #0a1626;
-  --sidebar-accent: #0e2138;
-  --sidebar-accent-foreground: #eef4fb;
-  --sidebar-border: rgba(147, 175, 214, 0.16);
-  --sidebar-ring: #fecc00;
+  --radius: 0.625rem;
+  /* JD Electrical — light professional trade theme */
+  --background: #ffffff;
+  --foreground: #1a2b3c;
+  --card: #ffffff;
+  --card-foreground: #1a2b3c;
+  --popover: #ffffff;
+  --popover-foreground: #1a2b3c;
+  --primary: #045191;
+  --primary-foreground: #ffffff;
+  --secondary: #eef3f8;
+  --secondary-foreground: #063258;
+  --muted: #f1f5f9;
+  --muted-foreground: #5b6b7d;
+  --accent: #eaf2fa;
+  --accent-foreground: #045191;
+  --destructive: #dc2626;
+  --border: #e2e8f0;
+  --input: #cbd5e1;
+  --ring: #045191;
+  --chart-1: #045191;
+  --chart-2: #fecc00;
+  --chart-3: #059669;
+  --chart-4: #ea580c;
+  --chart-5: #2563eb;
+  --sidebar: #f8fafc;
+  --sidebar-foreground: #1a2b3c;
+  --sidebar-primary: #045191;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #eef3f8;
+  --sidebar-accent-foreground: #063258;
+  --sidebar-border: #e2e8f0;
+  --sidebar-ring: #045191;
 }
 
 @layer base {
@@ -94,51 +95,53 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    letter-spacing: -0.01em;
   }
   ::selection {
-    background: rgba(254, 204, 0, 0.85);
-    color: #060d1a;
+    background: #fecc00;
+    color: #06294a;
   }
 }
 
-/* ---------- JD custom utilities ---------- */
+/* ---------- JD Electrical utilities ---------- */
 
-/* Blueprint grid backdrop */
-.grid-bg {
-  background-image:
-    linear-gradient(rgba(4, 81, 145, 0.14) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(4, 81, 145, 0.14) 1px, transparent 1px);
-  background-size: 44px 44px;
-  mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, black 30%, transparent 78%);
+/* Section eyebrow label */
+.jd-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #045191;
+}
+.jd-eyebrow::before {
+  content: "";
+  display: inline-block;
+  width: 2rem;
+  height: 3px;
+  border-radius: 2px;
+  background: #fecc00;
 }
 
-/* Yellow electric glow */
-.glow-yellow {
-  box-shadow:
-    0 0 24px rgba(254, 204, 0, 0.35),
-    0 0 64px rgba(254, 204, 0, 0.12);
-}
-
-.glow-blue {
-  box-shadow:
-    0 0 30px rgba(4, 81, 145, 0.5),
-    0 0 90px rgba(4, 81, 145, 0.25);
-}
-
-/* Card hover lift */
+/* Card hover — restrained, professional */
 .jd-card {
   transition:
-    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 0.35s,
-    box-shadow 0.35s;
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
 }
 .jd-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(254, 204, 0, 0.45);
-  box-shadow: 0 18px 50px -18px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(254, 204, 0, 0.12);
+  transform: translateY(-3px);
+  box-shadow: 0 16px 40px -16px rgba(6, 41, 74, 0.18);
+  border-color: rgba(4, 81, 145, 0.35);
 }
 
-/* Live pulse dot */
+/* Live pulse dot (leads board) */
 @keyframes jd-ping {
   0% { transform: scale(1); opacity: 0.9; }
   75%, 100% { transform: scale(2.4); opacity: 0; }
@@ -152,49 +155,29 @@
   animation: jd-ping 1.6s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
 
-/* Slow voltage flicker for hero bolt */
-@keyframes jd-flicker {
-  0%, 100% { opacity: 1; filter: drop-shadow(0 0 10px rgba(254, 204, 0, 0.7)); }
-  92% { opacity: 1; }
-  93% { opacity: 0.55; filter: none; }
-  94% { opacity: 1; }
-  96% { opacity: 0.7; }
-  97% { opacity: 1; }
-}
-.jd-flicker {
-  animation: jd-flicker 3.2s infinite;
-}
-
-/* Ticker for credentials */
-@keyframes jd-marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-.jd-marquee {
-  animation: jd-marquee 32s linear infinite;
-}
-.jd-marquee:hover {
-  animation-play-state: paused;
-}
-
-/* Thin styled scrollbar for leads board */
+/* Thin scrollbar for leads list */
 .jd-scroll::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 .jd-scroll::-webkit-scrollbar-track {
-  background: rgba(14, 33, 56, 0.6);
+  background: #eef2f6;
   border-radius: 8px;
 }
 .jd-scroll::-webkit-scrollbar-thumb {
-  background: rgba(4, 81, 145, 0.8);
+  background: #045191;
   border-radius: 8px;
 }
 .jd-scroll::-webkit-scrollbar-thumb:hover {
-  background: rgba(254, 204, 0, 0.6);
+  background: #fecc00;
 }
 
 /* Animated counter digits use tabular numbers */
 .tnum {
   font-variant-numeric: tabular-nums;
+}
+
+/* Diagonal brand edge used between hero and content */
+.jd-diagonal {
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 3.5rem), 0 100%);
 }
