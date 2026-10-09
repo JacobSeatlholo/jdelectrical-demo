@@ -36,3 +36,24 @@ Work Log:
 
 Stage Summary:
 - Demo complete & verified. Awaiting from user: GitHub repo URL (git@github.com:user/repo.git) + public key added to GitHub, then push via GIT_SSH wrapper or plain ssh on their machine.
+
+---
+Task ID: 3
+Agent: main
+Task: V2 redesign (kill the AI look), E2E verify, push to GitHub via SSH
+
+Work Log:
+- User feedback: v1 dark navy/glow/glass looked AI-generated. Full restyle to light professional trade brand
+- layout.tsx: Poppins (the real jdelectrical.co.za WP font) replaces Geist; themeColor #045191
+- globals.css: white/#f4f7fa light theme, jd-blue #045191 / jd-navy / jd-yellow tokens; removed grid-bg/glow/flicker/marquee utilities
+- nav.tsx: navy utility bar (real address/email/Facebook/phone) + white sticky nav, yellow Get a Quote
+- hero.tsx: brand-blue gradient hero, real site wording "Trusted Electrical Services", yellow CTA + click-to-call, real photo collage w/ white rings, white Master Electricians card (DoL GS01479, Reg IT9819/07)
+- sections.tsx: yellow trust strip (BEE Compliant / Master Electrician / Reliable Team / CoCs — real site badges), services cards w/ real photos + full real service lists, WhyJD (real about copy + stats), navy backup-power (load-shedding angle), 24/7 emergency band, coverage pills (Gauteng areas), compliance grid (all 6 real numbers), navy footer w/ © 2024 JD Electrical
+- estimator/leadsboard/ideagenerator/contact: restyled to light cards; ALL API logic unchanged; fixed contact.tsx corrupted hook `const essage,` -> `const [message,`
+- page.tsx order: Hero > TrustStrip > Services > WhyJD > BackupPower > Estimator > Emergency > LeadsBoard > IdeaGen > Coverage > Credentials > Contact > Footer
+- Verified (agent-browser 1440px + 390px): all sections render; E2E golden paths: industrial estimate -> R45 000–R75 000 w/ SANS 10142-1 + flameproof flags; lead "Pieter van Wyk" saved (API confirmed); contact form lead "Sari Du Plessis" (Gauteng) saved; mobile menu OK; ESLint clean; only 2 image aspect warnings fixed
+- SSH: no ssh binary in sandbox; used ssh2 GIT_SSH wrapper. Key is registered on GitHub as deploy key for JacobSeatlholo/jdelectrical-demo (discovered via shell greeting). ls-remote OK (empty repo)
+- Pushed: git remote add origin git@github.com:JacobSeatlholo/jdelectrical-demo.git; GIT_SSH wrapper push -u origin main -> ddc3288 on origin/main (verified via ls-remote)
+
+Stage Summary:
+- V2 live on localhost:3000 + pushed to git@github.com:JacobSeatlholo/jdelectrical-demo.git (main @ ddc3288). Deploy key has write access. Remaining: user may add GitHub Actions/README polish if desired.
